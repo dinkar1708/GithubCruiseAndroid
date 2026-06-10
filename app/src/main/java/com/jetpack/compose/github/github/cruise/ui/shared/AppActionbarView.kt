@@ -23,25 +23,43 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.jetpack.compose.github.github.cruise.ui.theme.Dimension
+import com.jetpack.compose.github.github.cruise.ui.theme.Elevation
 import com.jetpack.compose.github.github.cruise.ui.theme.GithubCruiseTheme
+import com.jetpack.compose.github.github.cruise.ui.theme.Spacing
 
 /**
- * Created by Dinakar Maurya on 2024/05/13.
+ * Reusable AppBar component following Material Design 3 guidelines
+ *
+ * @param modifier Modifier to be applied to the AppBar
+ * @param headerText Title text to display
+ * @param showBackButton Whether to show the back navigation button
+ * @param onBackClick Callback when back button is clicked
+ *
+ * Design principles:
+ * - Uses Material Theme colors for adaptive theming
+ * - Consistent spacing using design tokens
+ * - Proper elevation for depth perception
+ * - Accessible with proper content descriptions
  */
 @Composable
 fun AppActionBarView(
-    modifier: Modifier,
+    modifier: Modifier = Modifier,
     headerText: String,
     showBackButton: Boolean = true,
-    onBackClick: (() -> Unit) = {}
+    onBackClick: () -> Unit = {}
 ) {
-    Box(
-        modifier = modifier
-            .shadow(elevation = 1.dp)
-            .background(MaterialTheme.colorScheme.background)
+    Surface(
+        modifier = modifier,
+        color = MaterialTheme.colorScheme.surface,
+        shadowElevation = Elevation.level0,
+        tonalElevation = Elevation.level1
     ) {
         Column(
-            modifier = Modifier.padding(vertical = 8.dp, horizontal = 16.dp),
+            modifier = Modifier.padding(
+                vertical = Spacing.small,
+                horizontal = Spacing.medium
+            ),
             verticalArrangement = Arrangement.SpaceBetween,
             horizontalAlignment = Alignment.Start,
         ) {
@@ -52,13 +70,14 @@ fun AppActionBarView(
             ) {
                 if (showBackButton) {
                     IconButton(
-                        onClick = { onBackClick() }, modifier = Modifier.size(30.dp)
+                        onClick = onBackClick,
+                        modifier = Modifier.size(Dimension.appBarIconSize)
                     ) {
                         Icon(
                             imageVector = Icons.AutoMirrored.Filled.ArrowBack,
-                            contentDescription = null,
-                            tint = MaterialTheme.colorScheme.onBackground,
-                            modifier = Modifier.size(30.dp),
+                            contentDescription = "Navigate back",
+                            tint = MaterialTheme.colorScheme.onSurface,
+                            modifier = Modifier.size(Dimension.appBarIconSize),
                         )
                     }
                 }
@@ -66,17 +85,19 @@ fun AppActionBarView(
                 Text(
                     text = headerText,
                     textAlign = TextAlign.Center,
-                    style = MaterialTheme.typography.titleLarge.copy(
-                        color = MaterialTheme.colorScheme.onBackground,
-                    ),
-                    modifier = if (showBackButton) Modifier
-                        .padding(horizontal = 40.dp)
-                        .fillMaxWidth() else Modifier.fillMaxWidth(),
+                    style = MaterialTheme.typography.titleLarge,
+                    color = MaterialTheme.colorScheme.onSurface,
+                    modifier = if (showBackButton) {
+                        Modifier
+                            .padding(horizontal = Spacing.extraLarge)
+                            .fillMaxWidth()
+                    } else {
+                        Modifier.fillMaxWidth()
+                    },
                     maxLines = 1,
                     overflow = TextOverflow.Ellipsis
                 )
             }
-
         }
     }
 }

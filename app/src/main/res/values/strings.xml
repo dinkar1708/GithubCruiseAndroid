@@ -4,7 +4,8 @@
     <string name="profile_picture_off_icon_content_desc">Profile picture of %1$s</string>
 
     <!--Splash-->
-    <string name="splash_animation_github_cruise">Github Cruise\n(😊)</string>
+    <string name="splash_animation_github_cruise">GitHub Cruise</string>
+    <string name="splash_tagline">Explore GitHub Users &amp; Repositories</string>
 
     <!--User screen-->
     <string name="users_page_title">Users</string>
@@ -21,4 +22,42 @@
     <!--Repository Details screen-->
     <string name="repository_details_title">Repository Details</string>
     <string name="user_repository_list_start">" Star: "</string>
+
+    <!--Bottom Navigation-->
+    <string name="bottom_nav_home">Home</string>
+    <string name="bottom_nav_profile">Profile</string>
+    <string name="bottom_nav_settings">Settings</string>
+
+    <!--Profile Screen-->
+    <string name="profile_title">Profile</string>
+    <string name="profile_avatar">Profile Avatar</string>
+    <string name="profile_user_name">Dinakar Maurya</string>
+    <string name="profile_email_label">Email</string>
+    <string name="profile_email_value">dinkar1708@gmail.com</string>
+    <string name="profile_github_label">GitHub Username</string>
+    <string name="profile_github_value">dinkar1708</string>
+
+    <!--Settings Screen-->
+    <string name="settings_title">Settings</string>
+    <string name="settings_section_general">General</string>
+    <string name="settings_section_preferences">Preferences</string>
+    <string name="settings_section_about">About</string>
+    <string name="settings_section_legal">Legal</string>
+    <string name="settings_notifications">Notifications</string>
+    <string name="settings_notifications_subtitle">Receive push notifications</string>
+    <string name="settings_dark_mode">Dark Mode</string>
+    <string name="settings_dark_mode_subtitle">Enable dark theme</string>
+    <string name="settings_language">Language</string>
+    <string name="settings_language_subtitle">English</string>
+    <string name="settings_about">About</string>
+    <string name="settings_about_subtitle">Version 1.0.0</string>
+    <string name="settings_privacy">Privacy Policy</string>
+    <string name="settings_privacy_subtitle">View privacy policy</string>
+    <string name="settings_terms">Terms of Service</string>
+    <string name="settings_terms_subtitle">View terms and conditions</string>
+
+    <!--Web View Screen-->
+    <string name="webview_title">Loading…</string>
+    <string name="privacy_policy_url">https://www.google.com</string>
+    <string name="terms_url">https://www.google.com</string>
 </resources>

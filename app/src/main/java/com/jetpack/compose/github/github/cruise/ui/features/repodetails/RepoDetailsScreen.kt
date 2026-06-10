@@ -2,7 +2,10 @@ package com.jetpack.compose.github.github.cruise.ui.features.repodetails
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.statusBars
+import androidx.compose.foundation.layout.windowInsetsPadding
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
@@ -24,8 +27,8 @@ fun RepoDetailsScreen(
     htmlUrl: String
 ) {
     Column(
-        modifier =
-        Modifier
+        modifier = Modifier
+            .windowInsetsPadding(WindowInsets.statusBars)
             .background(MaterialTheme.colorScheme.background)
     ) {
         AppActionBarView(

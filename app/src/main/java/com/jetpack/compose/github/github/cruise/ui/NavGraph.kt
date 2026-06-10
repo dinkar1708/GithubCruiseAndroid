@@ -7,34 +7,43 @@ import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
+import com.jetpack.compose.github.github.cruise.ui.MainDestinations.HOME_SCREEN_ROUTE
 import com.jetpack.compose.github.github.cruise.ui.MainDestinations.SPLASH_SCREEN_ROUTE
-import com.jetpack.compose.github.github.cruise.ui.MainDestinations.USERS_LIST_SCREEN_ROUTE
 import com.jetpack.compose.github.github.cruise.ui.MainDestinations.USER_REPO_DETAILS_SCREEN_ROUTE
 import com.jetpack.compose.github.github.cruise.ui.MainDestinations.USER_REPO_SCREEN_ROUTE
+import com.jetpack.compose.github.github.cruise.ui.MainDestinations.WEBVIEW_SCREEN_ROUTE
 import com.jetpack.compose.github.github.cruise.ui.MainDestinationsParams.USER_REPO_DETAILS_SCREEN_PARAM
 import com.jetpack.compose.github.github.cruise.ui.MainDestinationsParams.USER_REPO_DETAIL_SCREEN_LOGIN_PARAM
+import com.jetpack.compose.github.github.cruise.ui.MainDestinationsParams.WEBVIEW_URL_PARAM
+import com.jetpack.compose.github.github.cruise.ui.MainDestinationsParams.WEBVIEW_TITLE_PARAM
+import com.jetpack.compose.github.github.cruise.ui.features.home.HomeScreen
+import com.jetpack.compose.github.github.cruise.ui.features.profile.ProfileScreen
 import com.jetpack.compose.github.github.cruise.ui.features.repodetails.RepoDetailsScreen
+import com.jetpack.compose.github.github.cruise.ui.features.settings.SettingsScreen
 import com.jetpack.compose.github.github.cruise.ui.features.splash.SplashScreen
 import com.jetpack.compose.github.github.cruise.ui.features.userrepository.UserRepoScreen
 import com.jetpack.compose.github.github.cruise.ui.features.userrepository.UserRepoScreenViewModel
 import com.jetpack.compose.github.github.cruise.ui.features.users.UsersListScreen
 import com.jetpack.compose.github.github.cruise.ui.features.users.UsersListViewModel
+import com.jetpack.compose.github.github.cruise.ui.features.webview.CommonWebViewScreen
 import com.jetpack.compose.github.github.cruise.ui.shared.utils.CommonUtils
 
 /**
- * Created by Dinakar Maurya on 2024/05/12.
+ * Navigation destinations for the app
  */
-
 object MainDestinations {
     const val SPLASH_SCREEN_ROUTE = "splash"
-    const val USERS_LIST_SCREEN_ROUTE = "users_list"
+    const val HOME_SCREEN_ROUTE = "home"
     const val USER_REPO_SCREEN_ROUTE = "user_repo"
     const val USER_REPO_DETAILS_SCREEN_ROUTE = "user_repo_details"
+    const val WEBVIEW_SCREEN_ROUTE = "webview"
 }
 
 object MainDestinationsParams {
     const val USER_REPO_DETAIL_SCREEN_LOGIN_PARAM = "login"
     const val USER_REPO_DETAILS_SCREEN_PARAM = "html_url"
+    const val WEBVIEW_URL_PARAM = "url"
+    const val WEBVIEW_TITLE_PARAM = "title"
 }
 
 @Composable
@@ -48,9 +57,20 @@ fun NavGraph(
             SplashScreen(navController)
         }
 
-        composable(USERS_LIST_SCREEN_ROUTE) {
-            val viewModel: UsersListViewModel = hiltViewModel()
-            UsersListScreen(navController, viewModel = viewModel)
+        composable(HOME_SCREEN_ROUTE) {
+            val usersViewModel: UsersListViewModel = hiltViewModel()
+
+            HomeScreen(
+                usersListContent = {
+                    UsersListScreen(navController, viewModel = usersViewModel)
+                },
+                profileContent = {
+                    ProfileScreen()
+                },
+                settingsContent = {
+                    SettingsScreen(navController)
+                }
+            )
         }
 
         composable(
@@ -77,6 +97,20 @@ fun NavGraph(
                 backStackEntry.arguments?.getString(USER_REPO_DETAILS_SCREEN_PARAM) ?: ""
             )
             RepoDetailsScreen(navController, htmlUrl = decodedUrl)
+        }
+
+        composable(
+            "$WEBVIEW_SCREEN_ROUTE/{$WEBVIEW_URL_PARAM}/{$WEBVIEW_TITLE_PARAM}",
+            arguments = listOf(
+                navArgument(WEBVIEW_URL_PARAM) { type = NavType.StringType },
+                navArgument(WEBVIEW_TITLE_PARAM) { type = NavType.StringType }
+            )
+        ) { backStackEntry ->
+            val url = CommonUtils.decodeUrl(
+                backStackEntry.arguments?.getString(WEBVIEW_URL_PARAM) ?: ""
+            )
+            val title = backStackEntry.arguments?.getString(WEBVIEW_TITLE_PARAM) ?: ""
+            CommonWebViewScreen(navController, url, title)
         }
     }
 }

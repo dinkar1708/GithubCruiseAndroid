@@ -1,8 +1,5 @@
 package com.jetpack.compose.github.github.cruise.ui.features.users.view
 
-import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -11,7 +8,6 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.lazy.rememberLazyListState
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -24,17 +20,18 @@ import androidx.compose.runtime.setValue
 import androidx.compose.runtime.snapshotFlow
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.shadow
-import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.dp
 import com.jetpack.compose.github.github.cruise.R
 import com.jetpack.compose.github.github.cruise.domain.model.User
 import com.jetpack.compose.github.github.cruise.ui.shared.NetworkImageView
+import com.jetpack.compose.github.github.cruise.ui.theme.AppShapes
+import com.jetpack.compose.github.github.cruise.ui.theme.Dimension
+import com.jetpack.compose.github.github.cruise.ui.theme.Elevation
 import com.jetpack.compose.github.github.cruise.ui.theme.GithubCruiseTheme
+import com.jetpack.compose.github.github.cruise.ui.theme.Spacing
 import kotlinx.coroutines.flow.distinctUntilChanged
 import timber.log.Timber
 
@@ -93,49 +90,52 @@ fun UsersListView(
 
 @Composable
 fun UserListItem(user: User, onItemClick: (User) -> Unit) {
-    Box(
+    androidx.compose.material3.Card(
         modifier = Modifier
-            .padding(vertical = 8.dp)
-            .shadow(10.dp, RoundedCornerShape(8.dp))
-            .background(
-                brush = Brush.linearGradient(
-                    colors = listOf(
-                        MaterialTheme.colorScheme.primaryContainer,
-                        MaterialTheme.colorScheme.primary
-                    ),
-                ), shape = RoundedCornerShape(4.dp)
-            )
-            .clickable { onItemClick(user) }
+            .fillMaxWidth()
+            .padding(vertical = Spacing.small),
+        onClick = { onItemClick(user) },
+        colors = androidx.compose.material3.CardDefaults.cardColors(
+            containerColor = MaterialTheme.colorScheme.surface
+        ),
+        elevation = androidx.compose.material3.CardDefaults.cardElevation(
+            defaultElevation = Elevation.card
+        ),
+        shape = AppShapes.card
     ) {
         Row(
-            Modifier
+            modifier = Modifier
                 .fillMaxWidth()
-                .padding(start = 8.dp, end = 8.dp),
+                .padding(Spacing.medium),
+            verticalAlignment = Alignment.CenterVertically
         ) {
-
             NetworkImageView(
-                modifier = Modifier.size(size = 80.dp),
+                modifier = Modifier.size(Dimension.avatarSizeLarge),
                 imageUrl = user.avatarUrl,
                 contentDescription = stringResource(
                     R.string.profile_picture_off_icon_content_desc,
                     user.login
                 )
             )
+
             Column(
                 modifier = Modifier
-                    .align(Alignment.CenterVertically)
-                    .padding(start = 8.dp)
+                    .weight(1f)
+                    .padding(start = Spacing.medium)
             ) {
                 Text(
                     text = user.login,
-                    style = MaterialTheme.typography.bodyLarge.copy(fontWeight = FontWeight.Bold),
-                    color = MaterialTheme.colorScheme.onPrimary,
-                    maxLines = 2,
+                    style = MaterialTheme.typography.titleMedium,
+                    color = MaterialTheme.colorScheme.onSurface,
+                    fontWeight = FontWeight.SemiBold,
+                    maxLines = 1,
                     overflow = TextOverflow.Ellipsis
                 )
                 Text(
                     text = stringResource(R.string.user_list_score, user.score),
-                    style = MaterialTheme.typography.labelSmall.copy(color = MaterialTheme.colorScheme.onPrimaryContainer)
+                    style = MaterialTheme.typography.bodyMedium,
+                    color = MaterialTheme.colorScheme.onSurfaceVariant,
+                    modifier = Modifier.padding(top = Spacing.extraSmall)
                 )
             }
         }

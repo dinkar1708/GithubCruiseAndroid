@@ -1,6 +1,5 @@
 package com.jetpack.compose.github.github.cruise.ui.features.userrepository.view
 
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -24,8 +23,10 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.jetpack.compose.github.github.cruise.R
 import com.jetpack.compose.github.github.cruise.domain.model.UserRepo
-import com.jetpack.compose.github.github.cruise.ui.shared.HorizontalLineView
+import com.jetpack.compose.github.github.cruise.ui.theme.AppShapes
+import com.jetpack.compose.github.github.cruise.ui.theme.Elevation
 import com.jetpack.compose.github.github.cruise.ui.theme.GithubCruiseTheme
+import com.jetpack.compose.github.github.cruise.ui.theme.Spacing
 
 /**
  * Created by Dinakar Maurya on 2024/05/14.
@@ -43,7 +44,6 @@ fun UserRepoListView(
                     userRepo = userRepo,
                     openRepoDetails = openRepoDetails
                 )
-                HorizontalLineView()
             }
         }
     }
@@ -52,71 +52,91 @@ fun UserRepoListView(
 
 @Composable
 fun RepositoryListItem(userRepo: UserRepo, openRepoDetails: (String) -> Unit) {
-//    val clicked = remember { mutableStateOf(false) }
-
-    Row(
+    androidx.compose.material3.Card(
         modifier = Modifier
-            .padding(vertical = 8.dp)
-            .clickable {
-                openRepoDetails(userRepo.htmlUrl)
-            },
-//     .background(color = if (clicked.value) Color.Blue else MaterialTheme.colorScheme.background),
-        verticalAlignment = Alignment.CenterVertically
-
+            .fillMaxWidth()
+            .padding(vertical = Spacing.small),
+        onClick = { openRepoDetails(userRepo.htmlUrl) },
+        colors = androidx.compose.material3.CardDefaults.cardColors(
+            containerColor = MaterialTheme.colorScheme.surface
+        ),
+        elevation = androidx.compose.material3.CardDefaults.cardElevation(
+            defaultElevation = Elevation.card
+        ),
+        shape = AppShapes.card
     ) {
         Column(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(end = 16.dp)
+                .padding(Spacing.medium)
         ) {
+            // Repository name
             Text(
                 text = userRepo.name,
-                style = MaterialTheme.typography.bodyLarge.copy(
-                    fontWeight = FontWeight.Bold,
-                    color = MaterialTheme.colorScheme.onBackground
-                ),
-                maxLines = 3,
+                style = MaterialTheme.typography.titleMedium,
+                color = MaterialTheme.colorScheme.onSurface,
+                fontWeight = FontWeight.SemiBold,
+                maxLines = 2,
                 overflow = TextOverflow.Ellipsis
             )
 
+            // Language and Stars row
             Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(top = Spacing.small),
                 verticalAlignment = Alignment.CenterVertically,
-                horizontalArrangement = Arrangement.Center
+                horizontalArrangement = Arrangement.spacedBy(Spacing.medium)
             ) {
-                Text(
-                    text = stringResource(
-                        R.string.user_repository_repo_list_language
-                    ),
-                    style = MaterialTheme.typography.bodyMedium.copy(color = MaterialTheme.colorScheme.primary),
-                )
-                Text(
-                    text = userRepo.language ?: "NA",
-                    style = MaterialTheme.typography.bodySmall.copy(color = MaterialTheme.colorScheme.surfaceTint),
-                )
+                // Language
+                if (!userRepo.language.isNullOrBlank()) {
+                    Row(
+                        verticalAlignment = Alignment.CenterVertically,
+                        horizontalArrangement = Arrangement.spacedBy(Spacing.extraSmall)
+                    ) {
+                        Text(
+                            text = stringResource(R.string.user_repository_repo_list_language),
+                            style = MaterialTheme.typography.bodySmall,
+                            color = MaterialTheme.colorScheme.onSurfaceVariant
+                        )
+                        Text(
+                            text = userRepo.language,
+                            style = MaterialTheme.typography.bodyMedium,
+                            color = MaterialTheme.colorScheme.primary,
+                            fontWeight = FontWeight.Medium
+                        )
+                    }
+                }
+
+                // Stars
+                Row(
+                    verticalAlignment = Alignment.CenterVertically,
+                    horizontalArrangement = Arrangement.spacedBy(Spacing.extraSmall)
+                ) {
+                    Icon(
+                        imageVector = Icons.Filled.Star,
+                        contentDescription = "Stars",
+                        tint = MaterialTheme.colorScheme.primary,
+                        modifier = Modifier.padding(0.dp)
+                    )
+                    Text(
+                        text = userRepo.stargazersCount,
+                        style = MaterialTheme.typography.bodyMedium,
+                        color = MaterialTheme.colorScheme.onSurfaceVariant,
+                        fontWeight = FontWeight.Medium
+                    )
+                }
             }
 
-            Row(
-                verticalAlignment = Alignment.CenterVertically,
-                horizontalArrangement = Arrangement.Center
-            ) {
-                Icon(
-                    Icons.Filled.Star, "", tint = MaterialTheme.colorScheme.surfaceTint,
-                )
-                Text(
-                    text = stringResource(R.string.user_repository_list_start),
-                    style = MaterialTheme.typography.bodyMedium.copy(color = MaterialTheme.colorScheme.primary),
-                )
-                Text(
-                    text = userRepo.stargazersCount,
-                    style = MaterialTheme.typography.bodySmall.copy(color = MaterialTheme.colorScheme.surfaceTint),
-                )
-            }
+            // Description
             if (!userRepo.description.isNullOrBlank()) {
                 Text(
                     text = userRepo.description,
-                    style = MaterialTheme.typography.bodyLarge.copy(color = MaterialTheme.colorScheme.surfaceTint),
-                    maxLines = 5,
-                    overflow = TextOverflow.Ellipsis
+                    style = MaterialTheme.typography.bodyMedium,
+                    color = MaterialTheme.colorScheme.onSurfaceVariant,
+                    maxLines = 3,
+                    overflow = TextOverflow.Ellipsis,
+                    modifier = Modifier.padding(top = Spacing.small)
                 )
             }
         }

@@ -18,13 +18,22 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.dp
+import com.jetpack.compose.github.github.cruise.ui.theme.Dimension
 import com.jetpack.compose.github.github.cruise.ui.theme.GithubCruiseTheme
+import com.jetpack.compose.github.github.cruise.ui.theme.Spacing
 
 /**
- * Created by Dinakar Maurya on 2024/05/15.
+ * Reusable error state component
+ *
+ * @param errorMessage Error message to display
+ * @param modifier Modifier to be applied
+ *
+ * Design principles:
+ * - Clear visual hierarchy with icon and message
+ * - Uses error color from theme
+ * - Consistent spacing
+ * - Accessible content descriptions
  */
-
 @Composable
 fun SharedErrorView(
     errorMessage: String,
@@ -34,21 +43,21 @@ fun SharedErrorView(
         horizontalAlignment = Alignment.CenterHorizontally,
         modifier = modifier
             .fillMaxWidth()
-            .padding(top = 50.dp)
+            .padding(top = Spacing.extraLarge)
     ) {
         Icon(
             imageVector = Icons.Filled.Info,
-            contentDescription = null,
-            modifier = Modifier.size(48.dp)
+            contentDescription = "Error",
+            tint = MaterialTheme.colorScheme.error,
+            modifier = Modifier.size(Dimension.iconSizeExtraLarge)
         )
-        Spacer(modifier = Modifier.height(16.dp))
+        Spacer(modifier = Modifier.height(Spacing.medium))
         Text(
             text = errorMessage,
             textAlign = TextAlign.Center,
-            style = MaterialTheme.typography.bodyLarge.copy(
-                color = MaterialTheme.colorScheme.error,
-                fontWeight = FontWeight.Bold
-            ),
+            style = MaterialTheme.typography.bodyLarge,
+            color = MaterialTheme.colorScheme.error,
+            fontWeight = FontWeight.Bold,
         )
     }
 }
