@@ -70,7 +70,7 @@ See complete features in [FEATURES.md](documentation/FEATURES.md)
 - **Image Loading:** Coil
 - **Navigation:** Navigation Compose
 - **Logging:** Timber
-- **Testing:** JUnit 4, MockK, Coroutines Test
+- **Testing:** JUnit 4, MockK, Coroutines Test, JaCoCo (Code Coverage)
 
 ### Requirements
 - **Minimum SDK:** 21 (Android 5.0 Lollipop) - Supports 99.6% of devices
@@ -187,20 +187,59 @@ See detailed architecture in [ARCHITECTURE.md](documentation/ARCHITECTURE.md)
 # Run debug unit tests
 ./gradlew testDebugUnitTest
 
-# Run with coverage
-./gradlew testDebugUnitTestCoverage
+# Run with coverage report (JaCoCo)
+./gradlew testDebugUnitTest jacocoTestReport
+
+# View coverage report
+open app/build/reports/jacoco/jacocoTestReport/html/index.html
 ```
 
 ### Test Structure
-- ViewModel tests
-- Repository tests
-- Use case tests
-- Data transformation tests
+
+**Current Test Suite: 6 test files, 18 test methods**
+
+**ViewModel Tests:**
+- `UsersListViewModelTest` - 5 test cases
+  - Search with valid user
+  - No matching users found
+  - Empty input validation
+  - API rate limit error handling
+  - Network error handling
+- `UserRepoScreenViewModelTest` - Repository listing tests
+
+**Repository Tests:**
+- `UserRepositoryImplTest` - User data repository
+- `SearchRepositoryImplTest` - Search functionality
+
+**Use Case Tests:**
+- `UserRepositoryUseCaseTest` - User business logic
+- `SearchRepositoryUseCaseTest` - Search business logic
+
+All tests use **MockK** for mocking and **Coroutines Test** for async testing.
 
 ### Testing Tools
 - **JUnit 4** - Test framework
 - **MockK** - Mocking library for Kotlin
 - **Coroutines Test** - Testing async code
+
+### Code Coverage
+
+**Overall Coverage: 9%**
+
+**Coverage by Layer:**
+- ✅ Repository layer: 77-79% (Excellent)
+- ✅ Use cases: 70% (Good)
+- ✅ Domain models: 65% (Good)
+- ⚠️ ViewModels: 21-25% (Needs improvement)
+- ❌ UI/Compose: 0-9% (Low - expected for UI)
+
+**Tool:** JaCoCo (Java Code Coverage)
+
+**Reports Generated:**
+- HTML reports for interactive viewing
+- XML reports for CI/CD integration
+
+For detailed coverage information and testing guidelines, see [CODE_COVERAGE.md](documentation/CODE_COVERAGE.md)
 
 ---
 
@@ -285,7 +324,10 @@ A: Wait for the limit to reset (60 requests/hour) or implement personal access t
 - Advanced filtering options
 
 ### Planned Improvements
-- Improve code coverage to 80%
+- **Code Coverage Goals:**
+  - Short-term (3 months): 30% overall coverage
+  - Medium-term (6 months): 50% overall coverage
+  - Long-term (12 months): 80% overall coverage
 - Add integration tests
 - Implement analytics
 - Add crash reporting

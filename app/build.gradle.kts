@@ -3,6 +3,7 @@ plugins {
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.ksp)
     alias(libs.plugins.hilt)
+    jacoco
 }
 
 android {
@@ -44,6 +45,7 @@ android {
             buildConfigField("String", "API_VERSION", "\"2022-11-28\"")
             applicationIdSuffix = ".debug"
             versionNameSuffix = "debug"
+            enableUnitTestCoverage = true
         }
     }
     compileOptions {
@@ -67,6 +69,15 @@ android {
             excludes += "META-INF/gradle/incremental.annotation.processors"
             excludes += "META-INF/LICENSE.md"
             excludes += "META-INF/LICENSE-notice.md"
+        }
+    }
+
+    testOptions {
+        unitTests.all {
+            it.configure<JacocoTaskExtension> {
+                isIncludeNoLocationClasses = true
+                excludes = listOf("jdk.internal.*")
+            }
         }
     }
 }
@@ -115,4 +126,43 @@ dependencies {
     // Dependencies for Android unit tests
     androidTestImplementation(composeBom)
     androidTestImplementation(libs.junit4)
+}
+
+tasks.register<JacocoReport>("jacocoTestReport") {
+    dependsOn("testDebugUnitTest")
+
+    reports {
+        xml.required.set(true)
+        html.required.set(true)
+    }
+
+    val fileFilter = listOf(
+        "**/R.class",
+        "**/R$*.class",
+        "**/BuildConfig.*",
+        "**/Manifest*.*",
+        "**/*Test*.*",
+        "android/**/*.*",
+        "**/*Fragment.*",
+        "**/*Activity.*",
+        "**/*_Factory.*",
+        "**/*_HiltModules*.*",
+        "**/Hilt_*.*",
+        "**/*ComposableSingletons*.*",
+        "**/*_Impl.*",
+        "**/*Module_*.*",
+        "**/di/**"
+    )
+
+    val debugTree = fileTree("${buildDir}/tmp/kotlin-classes/debug") {
+        exclude(fileFilter)
+    }
+
+    val mainSrc = "${project.projectDir}/src/main/java"
+
+    sourceDirectories.setFrom(files(listOf(mainSrc)))
+    classDirectories.setFrom(files(listOf(debugTree)))
+    executionData.setFrom(fileTree(buildDir) {
+        include("**/*.exec", "**/*.ec")
+    })
 }

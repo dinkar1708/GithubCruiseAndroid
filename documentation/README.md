@@ -36,6 +36,14 @@ Material Design 3 implementation:
 - Component dimensions
 - Usage examples and best practices
 
+### CODE_COVERAGE.md
+Code coverage documentation:
+- Coverage tool setup (JaCoCo)
+- Running coverage reports
+- Current coverage statistics
+- Coverage goals and roadmap
+- Testing best practices
+
 ## Quick Reference
 
 **For new developers:**
@@ -48,6 +56,7 @@ Material Design 3 implementation:
 1. [README.md](../README.md) - Setup and contribution guidelines
 2. [ARCHITECTURE.md](ARCHITECTURE.md) - Code structure
 3. [DESIGN_SYSTEM.md](DESIGN_SYSTEM.md) - UI component guidelines
+4. [CODE_COVERAGE.md](CODE_COVERAGE.md) - Testing and coverage
 
 **For API integration:**
 - [API.md](API.md) - All API endpoints and examples
@@ -62,7 +71,8 @@ Material Design 3 implementation:
 - Add features: [ARCHITECTURE.md](ARCHITECTURE.md) + [DESIGN_SYSTEM.md](DESIGN_SYSTEM.md)
 - Fix bugs: [ARCHITECTURE.md](ARCHITECTURE.md)
 - Style components: [DESIGN_SYSTEM.md](DESIGN_SYSTEM.md)
-- Write tests: [ARCHITECTURE.md](ARCHITECTURE.md)
+- Write tests: [CODE_COVERAGE.md](CODE_COVERAGE.md)
+- Check coverage: [CODE_COVERAGE.md](CODE_COVERAGE.md)
 
 ## Contributing to Documentation
 
