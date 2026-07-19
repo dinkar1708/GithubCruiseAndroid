@@ -16,29 +16,12 @@
 
 ---
 
-## API Summary
+## Table of Contents
 
-### Currently Implemented APIs
-
-| API Name | Endpoint | Android | iOS | Flutter | Priority |
-|----------|----------|---------|-----|---------|----------|
-| Search Users | `GET /search/users` | Done | TODO | Done | P1 |
-| Get User Profile | `GET /users/{username}` | Done | TODO | TODO | P1 |
-| Get User Repositories | `GET /users/{username}/repos` | Done | TODO | Done | P1 |
-| Search Repositories | `GET /search/repositories` | TODO | Done | TODO | P1 |
-
-### APIs Available to Use (Not Yet Implemented)
-
-| API Name | Endpoint | Use Case | Priority |
-|----------|----------|----------|----------|
-| Get Repository Details | `GET /repos/{owner}/{repo}` | Repository detail screen | P1 |
-| Get Repository Issues | `GET /repos/{owner}/{repo}/issues` | Show repo issues | P2 |
-| Get Repository Commits | `GET /repos/{owner}/{repo}/commits` | Show commit history | P2 |
-| Get User Followers | `GET /users/{username}/followers` | User network | P2 |
-| Get User Following | `GET /users/{username}/following` | User network | P2 |
-| Get Public Events | `GET /events` | Activity feed | P3 |
-| Get User Gists | `GET /users/{username}/gists` | User code snippets | P3 |
-| Get Organization Repos | `GET /orgs/{org}/repos` | Organization view | P3 |
+1. [Common Configuration](#common-configuration)
+2. [Core APIs](#core-apis) (API-1 to API-4)
+3. [Extended APIs](#extended-apis) (API-5 to API-14)
+4. [Additional Resources](#additional-resources)
 
 ---
 
@@ -65,7 +48,9 @@ Authorization: Bearer YOUR_GITHUB_TOKEN
 
 ---
 
-## Implemented APIs
+## Core APIs
+
+These are the primary APIs used across all platform implementations.
 
 ### API 1: Search Users
 **API ID:** API-1
@@ -131,11 +116,13 @@ https://api.github.com/users/dinkar1708/repos?page=1&per_page=100
 https://api.github.com/search/repositories?q=swift&per_page=40&page=1
 ```
 
-**Used In:** Repository Search Screen (iOS only, TODO for Android/Flutter)
+**Used In:** Repository Search Screen
 
 ---
 
-## Available APIs (Not Yet Implemented)
+## Extended APIs
+
+Additional GitHub APIs available for enhanced features.
 
 ### API 5: Get Repository Details
 **API ID:** API-5

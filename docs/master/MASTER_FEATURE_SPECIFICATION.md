@@ -105,7 +105,7 @@ Splash Screen → Search Users → View Profile → Browse Repos → View Repo D
 ---
 
 #### 2. Repository Discovery Flow
-**Status:** Android TODO | iOS Done | Flutter TODO
+**Status:** Android Done | iOS Done | Flutter TODO
 
 **User Journey:**
 ```
@@ -142,17 +142,79 @@ Search Repositories → View Repo List → View Details
 
 ### Priority 2: Advanced Features (Nice to Have)
 
-#### 3. Favorites Screen
+#### 3. Favorites System
 **Feature ID:** 3.0
 
-**Status:** All TODO
+**Status:** Android Done | iOS TODO | Flutter TODO
+
+**User Journey:**
+```
+View User/Repo → Add to Favorites → Access from Favorites Tab → Navigate to Details
+```
+
+**3.1 Favorite Users**
+**Feature ID:** 3.1
 
 **Requirements:**
-- Screen showing saved favorite users/repos
-- Add/Remove favorites from profile/repo screens
-- Persistent storage across app restarts
-- Empty state when no favorites
-- Navigate to saved user/repo details
+- Add/Remove user as favorite from User Profile Screen (Feature 1.3)
+- Favorite button with star icon in app bar
+- Visual indicator showing favorite status (filled/unfilled star)
+- Toast/Snackbar confirmation when added/removed
+- Store user data: username, avatar URL, full name, bio
+- Persistent storage using local preferences/database
+- Favorites persist across app restarts
+
+**3.2 Favorite Repositories**
+**Feature ID:** 3.2
+
+**Requirements:**
+- Add/Remove repository as favorite from Repository Details Screen (Feature 2.2)
+- Favorite button with star icon in app bar
+- Visual indicator showing favorite status (filled/unfilled star)
+- Toast/Snackbar confirmation when added/removed
+- Store repo data: full name (owner/repo), description, avatar URL, HTML URL
+- Persistent storage using local preferences/database
+- Favorites persist across app restarts
+
+**3.3 Favorites List Screen**
+**Feature ID:** 3.3
+
+**Requirements:**
+- Dedicated tab in bottom navigation showing all favorites
+- Display both favorite users and repositories in one list OR separate tabs
+- User cards showing:
+  - Avatar, username, bio
+  - Tap → Navigate to User Repositories Screen (Feature 1.5)
+  - Remove button to unfavorite
+- Repository cards showing:
+  - Owner avatar, repository name, description
+  - Tap → Navigate to Repository Details Screen (Feature 2.2)
+  - Remove button to unfavorite
+- Empty state with message when no favorites
+- "Clear All" option to remove all favorites
+- Pull-to-refresh (optional, updates cached data)
+
+**Data Model:**
+```kotlin
+data class FavoriteItem(
+    val id: String,                    // username or "owner/repo"
+    val type: FavoriteType,            // USER or REPOSITORY
+    val name: String,                  // display name
+    val description: String?,          // bio or repo description
+    val avatarUrl: String,             // avatar image
+    val url: String                    // GitHub URL for navigation
+)
+
+enum class FavoriteType {
+    USER,
+    REPOSITORY
+}
+```
+
+**Storage:**
+- Use SharedPreferences (Android), UserDefaults (iOS), or equivalent
+- Store as JSON array for easy serialization
+- Example key: `favorites_list`
 
 ---
 
@@ -175,31 +237,17 @@ Search Repositories → View Repo List → View Details
 
 ## API Specifications
 
-**See detailed API documentation:** [GITHUB_API_SPECIFICATION.md](./GITHUB_API_SPECIFICATION.md)
+**All GitHub API details, endpoints, request/response formats, and implementation status are documented in:**
 
-### Currently Used APIs
+📄 **[GITHUB_API_SPECIFICATION.md](./GITHUB_API_SPECIFICATION.md)**
 
-| API | Endpoint | Android | iOS | Flutter |
-|-----|----------|---------|-----|---------|
-| Search Users | `GET /search/users` | Done | TODO | Done |
-| Get User Profile | `GET /users/{username}` | Done | TODO | TODO |
-| Get User Repositories | `GET /users/{username}/repos` | Done | TODO | Done |
-| Search Repositories | `GET /search/repositories` | TODO | Done | TODO |
+This document contains:
+- Complete API endpoint definitions
+- Request/response schemas
+- Platform implementation status (Android/iOS/Flutter)
+- Available APIs for future implementation
 
-### TODO: APIs Available for Implementation
-
-- Get Repository Details
-- Get Repository Issues
-- Get Repository Commits
-- Get User Followers
-- Get User Following
-- Get Public Events
-- Get User Gists
-- Get Organization Repositories
-
-**Full details in:** [GITHUB_API_SPECIFICATION.md](./GITHUB_API_SPECIFICATION.md)
-
-**Note:** Gap analysis (what features are missing) should be maintained in each project's README.md so each platform team knows what they need to implement.
+**Note:** Each platform project's README.md should maintain a gap analysis showing which features still need to be implemented.
 
 ---
 
