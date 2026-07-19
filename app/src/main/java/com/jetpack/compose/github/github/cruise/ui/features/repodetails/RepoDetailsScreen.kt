@@ -69,7 +69,7 @@ import com.jetpack.compose.github.github.cruise.ui.features.favorites.FavoritesV
  * Enhanced Repository Details screen showing rich information
  */
 @Composable
-fun EnhancedRepoDetailsScreen(
+fun RepoDetailsScreen(
     navController: NavHostController,
     htmlUrl: String,
     viewModel: RepoDetailsViewModel = hiltViewModel(),

@@ -23,8 +23,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
-import androidx.compose.ui.semantics.semantics
-import androidx.compose.ui.semantics.testTag
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import com.jetpack.compose.github.github.cruise.ui.theme.AppShapes
@@ -85,7 +84,7 @@ fun SearchBox(
             },
             modifier = Modifier
                 .fillMaxWidth()
-                .semantics { this.testTag = testTag },
+                .testTag(testTag),
             placeholder = {
                 Text(
                     text = placeholder,

@@ -9,11 +9,11 @@ import org.junit.Test
 import org.junit.runner.RunWith
 
 /**
- * Journey 13: Enhanced Repository Details
- * Tests the enhanced repository details screen (Feature 2.2)
+ * Journey 13: Repository Details
+ * Tests the repository details screen (Feature 2.2)
  */
 @RunWith(AndroidJUnit4::class)
-class Journey13_EnhancedRepositoryDetailsTest {
+class Journey13_RepositoryDetailsTest {
 
     @get:Rule
     val composeTestRule = createAndroidComposeRule<MainActivity>()
@@ -23,7 +23,7 @@ class Journey13_EnhancedRepositoryDetailsTest {
         Thread.sleep(3000)
 
         // Search for a user
-        composeTestRule.onNode(hasSetTextAction()).performTextInput("dinkar1708")
+        composeTestRule.onNodeWithTag("search_input").performTextInput("dinkar1708")
         Thread.sleep(2000)
 
         // Click on first user (if exists)
@@ -43,7 +43,7 @@ class Journey13_EnhancedRepositoryDetailsTest {
         Thread.sleep(3000)
 
         // Search and navigate to repository
-        composeTestRule.onNode(hasSetTextAction()).performTextInput("octocat")
+        composeTestRule.onNodeWithTag("search_input").performTextInput("octocat")
         Thread.sleep(2000)
 
         // Try to navigate to a repository
@@ -62,7 +62,7 @@ class Journey13_EnhancedRepositoryDetailsTest {
         Thread.sleep(3000)
 
         // Search and navigate
-        composeTestRule.onNode(hasSetTextAction()).performTextInput("github")
+        composeTestRule.onNodeWithTag("search_input").performTextInput("github")
         Thread.sleep(2000)
 
         composeTestRule.onAllNodes(hasClickAction()).onFirst().performClick()
@@ -82,7 +82,7 @@ class Journey13_EnhancedRepositoryDetailsTest {
         Thread.sleep(3000)
 
         // Navigate to a repository
-        composeTestRule.onNode(hasSetTextAction()).performTextInput("torvalds")
+        composeTestRule.onNodeWithTag("search_input").performTextInput("torvalds")
         Thread.sleep(2500)
 
         // Click on user
@@ -102,7 +102,7 @@ class Journey13_EnhancedRepositoryDetailsTest {
         Thread.sleep(3000)
 
         // Navigate through the flow
-        composeTestRule.onNode(hasSetTextAction()).performTextInput("test")
+        composeTestRule.onNodeWithTag("search_input").performTextInput("test")
         Thread.sleep(2000)
 
         composeTestRule.onAllNodes(hasClickAction()).onFirst().performClick()

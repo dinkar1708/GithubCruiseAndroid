@@ -20,7 +20,7 @@ import com.jetpack.compose.github.github.cruise.ui.features.favorites.FavoritesS
 import com.jetpack.compose.github.github.cruise.ui.features.favorites.FavoritesViewModel
 import com.jetpack.compose.github.github.cruise.ui.features.home.HomeScreen
 import com.jetpack.compose.github.github.cruise.ui.features.profile.ProfileScreen
-import com.jetpack.compose.github.github.cruise.ui.features.repodetails.EnhancedRepoDetailsScreen
+import com.jetpack.compose.github.github.cruise.ui.features.repodetails.RepoDetailsScreen
 import com.jetpack.compose.github.github.cruise.ui.features.repositorysearch.RepositorySearchScreen
 import com.jetpack.compose.github.github.cruise.ui.features.repositorysearch.RepositorySearchViewModel
 import com.jetpack.compose.github.github.cruise.ui.features.settings.SettingsScreen
@@ -105,7 +105,7 @@ fun NavGraph(
             val decodedUrl = CommonUtils.decodeUrl(
                 backStackEntry.arguments?.getString(USER_REPO_DETAILS_SCREEN_PARAM) ?: ""
             )
-            EnhancedRepoDetailsScreen(navController, htmlUrl = decodedUrl)
+            RepoDetailsScreen(navController, htmlUrl = decodedUrl)
         }
 
         composable(

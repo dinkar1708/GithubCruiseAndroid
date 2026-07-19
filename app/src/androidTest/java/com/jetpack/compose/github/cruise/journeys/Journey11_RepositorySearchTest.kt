@@ -41,8 +41,8 @@ class Journey11_RepositorySearchTest {
         composeTestRule.onNodeWithText("Repositories").performClick()
         Thread.sleep(500)
 
-        // Find search field and type
-        composeTestRule.onNode(hasSetTextAction()).performTextInput("android")
+        // Find search field by test tag and type
+        composeTestRule.onNodeWithTag("repository_search_input").performTextInput("android")
         Thread.sleep(500)
 
         // Verify text was entered
@@ -58,7 +58,7 @@ class Journey11_RepositorySearchTest {
         Thread.sleep(500)
 
         // Type in search field
-        composeTestRule.onNode(hasSetTextAction()).performTextInput("kotlin")
+        composeTestRule.onNodeWithTag("repository_search_input").performTextInput("kotlin")
 
         // Wait for debounce (500ms) + network call
         Thread.sleep(2000)
