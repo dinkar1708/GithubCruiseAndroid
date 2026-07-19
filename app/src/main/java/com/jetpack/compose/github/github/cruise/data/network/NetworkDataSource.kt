@@ -1,5 +1,7 @@
 package com.jetpack.compose.github.github.cruise.data.network
 
+import com.jetpack.compose.github.github.cruise.domain.model.RepositoryDetails
+import com.jetpack.compose.github.github.cruise.domain.model.SearchRepository
 import com.jetpack.compose.github.github.cruise.domain.model.SearchUser
 import com.jetpack.compose.github.github.cruise.domain.model.UserProfile
 import com.jetpack.compose.github.github.cruise.domain.model.UserRepo
@@ -14,6 +16,12 @@ interface NetworkDataSource {
         pageSize: Int,
     ): SearchUser
 
+    suspend fun searchRepositories(
+        query: String,
+        page: Int,
+        pageSize: Int,
+    ): SearchRepository
+
     suspend fun getUserRepositories(
         userName: String,
         page: Int,
@@ -21,5 +29,7 @@ interface NetworkDataSource {
     ): List<UserRepo>
 
     suspend fun getUserProfile(userName: String): UserProfile
+
+    suspend fun getRepositoryDetails(owner: String, repo: String): RepositoryDetails
 
 }

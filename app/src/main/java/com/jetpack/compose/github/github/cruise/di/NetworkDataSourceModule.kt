@@ -24,11 +24,15 @@ import javax.inject.Singleton
 @InstallIn(SingletonComponent::class)
 object NetworkDataSourceModule {
 
-    private val moshi: Moshi by lazy { Moshi.Builder().add(KotlinJsonAdapterFactory()).build() }
+    @Singleton
+    @Provides
+    fun provideMoshi(): Moshi {
+        return Moshi.Builder().add(KotlinJsonAdapterFactory()).build()
+    }
 
     @Singleton
     @Provides
-    fun provideNetworkDataSource(): NetworkDataSource {
+    fun provideNetworkDataSource(moshi: Moshi): NetworkDataSource {
         val interceptor = HttpLoggingInterceptor()
         interceptor.level = HttpLoggingInterceptor.Level.BODY
 

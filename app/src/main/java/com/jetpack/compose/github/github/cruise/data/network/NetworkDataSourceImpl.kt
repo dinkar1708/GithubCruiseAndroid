@@ -1,9 +1,11 @@
 package com.jetpack.compose.github.github.cruise.data.network
 
+import com.jetpack.compose.github.github.cruise.data.network.api.APIInterface
+import com.jetpack.compose.github.github.cruise.domain.model.RepositoryDetails
+import com.jetpack.compose.github.github.cruise.domain.model.SearchRepository
 import com.jetpack.compose.github.github.cruise.domain.model.SearchUser
 import com.jetpack.compose.github.github.cruise.domain.model.UserProfile
 import com.jetpack.compose.github.github.cruise.domain.model.UserRepo
-import com.jetpack.compose.github.github.cruise.data.network.api.APIInterface
 
 /**
  * Created by Dinakar Maurya on 2024/05/12
@@ -19,6 +21,14 @@ class NetworkDataSourceImpl(
         return api.getSearchUsers(userName, page, pageSize)
     }
 
+    override suspend fun searchRepositories(
+        query: String,
+        page: Int,
+        pageSize: Int,
+    ): SearchRepository {
+        return api.searchRepositories(query, page, pageSize)
+    }
+
     override suspend fun getUserRepositories(
         userName: String,
         page: Int,
@@ -29,5 +39,9 @@ class NetworkDataSourceImpl(
 
     override suspend fun getUserProfile(userName: String): UserProfile {
         return api.getUserProfile(userName)
+    }
+
+    override suspend fun getRepositoryDetails(owner: String, repo: String): RepositoryDetails {
+        return api.getRepositoryDetails(owner, repo)
     }
 }
