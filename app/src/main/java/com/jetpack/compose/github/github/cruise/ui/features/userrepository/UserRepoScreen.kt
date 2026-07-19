@@ -41,16 +41,25 @@ import com.jetpack.compose.github.github.cruise.ui.shared.HorizontalLineView
 import com.jetpack.compose.github.github.cruise.ui.shared.StateContentBox
 import com.jetpack.compose.github.github.cruise.ui.shared.utils.CommonUtils
 import com.jetpack.compose.github.github.cruise.ui.theme.GithubCruiseTheme
+import com.jetpack.compose.github.github.cruise.ui.widgets.FavoriteButton
+import com.jetpack.compose.github.github.cruise.domain.model.FavoriteItem
+import com.jetpack.compose.github.github.cruise.domain.model.FavoriteType
+import androidx.hilt.navigation.compose.hiltViewModel
+import com.jetpack.compose.github.github.cruise.ui.features.favorites.FavoritesViewModel
 
 /**
  * Created by Dinakar Maurya on 2024/05/12.
  */
 @Composable
 fun UserRepoScreen(
-    navController: NavHostController, viewModel: UserRepoScreenViewModel, login: String
+    navController: NavHostController,
+    viewModel: UserRepoScreenViewModel,
+    login: String,
+    favoritesViewModel: FavoritesViewModel = hiltViewModel()
 ) {
     val viewState by viewModel.uiStateRepository.collectAsStateWithLifecycle()
     val viewStateProfile by viewModel.uiStateProfile.collectAsStateWithLifecycle()
+    val favoritesState by favoritesViewModel.uiState.collectAsStateWithLifecycle()
 
     LaunchedEffect(key1 = login) {
         viewModel.loadApiData(login)
@@ -68,6 +77,32 @@ fun UserRepoScreen(
             showBackButton = true,
             onBackClick = {
                 navController.popBackStack()
+            },
+            actions = {
+                // Favorite button for user profile
+                viewStateProfile.userProfile?.let { profile ->
+                    val isFavorite = favoritesState.favorites.any {
+                        it.id == profile.id.toString() && it.type == FavoriteType.USER
+                    }
+                    FavoriteButton(
+                        isFavorite = isFavorite,
+                        onToggleFavorite = {
+                            if (isFavorite) {
+                                favoritesViewModel.removeFavorite(profile.id.toString(), FavoriteType.USER)
+                            } else {
+                                val favoriteItem = FavoriteItem(
+                                    id = profile.id.toString(),
+                                    type = FavoriteType.USER,
+                                    name = profile.login,
+                                    description = profile.name,
+                                    avatarUrl = profile.avatarUrl,
+                                    url = "https://github.com/${profile.login}"
+                                )
+                                favoritesViewModel.addFavorite(favoriteItem)
+                            }
+                        }
+                    )
+                }
             }
         )
         UserRepoListScreenContentsProfile(

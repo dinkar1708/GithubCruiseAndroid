@@ -47,7 +47,8 @@ fun AppActionBarView(
     modifier: Modifier = Modifier,
     headerText: String,
     showBackButton: Boolean = true,
-    onBackClick: () -> Unit = {}
+    onBackClick: () -> Unit = {},
+    actions: @Composable () -> Unit = {}
 ) {
     Surface(
         modifier = modifier,
@@ -66,7 +67,7 @@ fun AppActionBarView(
             Row(
                 verticalAlignment = Alignment.CenterVertically,
                 horizontalArrangement = Arrangement.Start,
-                modifier = Modifier.padding(0.dp)
+                modifier = Modifier.fillMaxWidth()
             ) {
                 if (showBackButton) {
                     IconButton(
@@ -87,16 +88,15 @@ fun AppActionBarView(
                     textAlign = TextAlign.Center,
                     style = MaterialTheme.typography.titleLarge,
                     color = MaterialTheme.colorScheme.onSurface,
-                    modifier = if (showBackButton) {
-                        Modifier
-                            .padding(horizontal = Spacing.extraLarge)
-                            .fillMaxWidth()
-                    } else {
-                        Modifier.fillMaxWidth()
-                    },
+                    modifier = Modifier
+                        .weight(1f)
+                        .padding(horizontal = Spacing.medium),
                     maxLines = 1,
                     overflow = TextOverflow.Ellipsis
                 )
+
+                // Actions slot (e.g., favorite button)
+                actions()
             }
         }
     }

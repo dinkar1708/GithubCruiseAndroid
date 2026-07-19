@@ -16,9 +16,14 @@ import com.jetpack.compose.github.github.cruise.ui.MainDestinationsParams.USER_R
 import com.jetpack.compose.github.github.cruise.ui.MainDestinationsParams.USER_REPO_DETAIL_SCREEN_LOGIN_PARAM
 import com.jetpack.compose.github.github.cruise.ui.MainDestinationsParams.WEBVIEW_URL_PARAM
 import com.jetpack.compose.github.github.cruise.ui.MainDestinationsParams.WEBVIEW_TITLE_PARAM
+import com.jetpack.compose.github.github.cruise.ui.features.favorites.FavoritesScreen
+import com.jetpack.compose.github.github.cruise.ui.features.favorites.FavoritesViewModel
 import com.jetpack.compose.github.github.cruise.ui.features.home.HomeScreen
 import com.jetpack.compose.github.github.cruise.ui.features.profile.ProfileScreen
+import com.jetpack.compose.github.github.cruise.ui.features.repodetails.EnhancedRepoDetailsScreen
 import com.jetpack.compose.github.github.cruise.ui.features.repodetails.RepoDetailsScreen
+import com.jetpack.compose.github.github.cruise.ui.features.repositorysearch.RepositorySearchScreen
+import com.jetpack.compose.github.github.cruise.ui.features.repositorysearch.RepositorySearchViewModel
 import com.jetpack.compose.github.github.cruise.ui.features.settings.SettingsScreen
 import com.jetpack.compose.github.github.cruise.ui.features.splash.SplashScreen
 import com.jetpack.compose.github.github.cruise.ui.features.userrepository.UserRepoScreen
@@ -59,13 +64,18 @@ fun NavGraph(
 
         composable(HOME_SCREEN_ROUTE) {
             val usersViewModel: UsersListViewModel = hiltViewModel()
+            val repositorySearchViewModel: RepositorySearchViewModel = hiltViewModel()
+            val favoritesViewModel: FavoritesViewModel = hiltViewModel()
 
             HomeScreen(
                 usersListContent = {
                     UsersListScreen(navController, viewModel = usersViewModel)
                 },
-                profileContent = {
-                    ProfileScreen()
+                repositoriesSearchContent = {
+                    RepositorySearchScreen(navController, viewModel = repositorySearchViewModel)
+                },
+                favoritesContent = {
+                    FavoritesScreen(navController, viewModel = favoritesViewModel)
                 },
                 settingsContent = {
                     SettingsScreen(navController)
@@ -96,7 +106,7 @@ fun NavGraph(
             val decodedUrl = CommonUtils.decodeUrl(
                 backStackEntry.arguments?.getString(USER_REPO_DETAILS_SCREEN_PARAM) ?: ""
             )
-            RepoDetailsScreen(navController, htmlUrl = decodedUrl)
+            EnhancedRepoDetailsScreen(navController, htmlUrl = decodedUrl)
         }
 
         composable(

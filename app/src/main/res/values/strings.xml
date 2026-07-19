@@ -23,9 +23,14 @@
     <string name="repository_details_title">Repository Details</string>
     <string name="user_repository_list_start">" Star: "</string>
 
+    <!--Repository Search screen-->
+    <string name="repository_search_title">Repository Search</string>
+    <string name="repository_search_hint">Search repositories...</string>
+
     <!--Bottom Navigation-->
-    <string name="bottom_nav_home">Home</string>
-    <string name="bottom_nav_profile">Profile</string>
+    <string name="bottom_nav_home">Users</string>
+    <string name="bottom_nav_repositories">Repositories</string>
+    <string name="bottom_nav_favorites">Favorites</string>
     <string name="bottom_nav_settings">Settings</string>
 
     <!--Profile Screen-->
@@ -36,6 +41,16 @@
     <string name="profile_email_value">dinkar1708@gmail.com</string>
     <string name="profile_github_label">GitHub Username</string>
     <string name="profile_github_value">dinkar1708</string>
+
+    <!--Favorites Screen-->
+    <string name="favorites_title">Favorites</string>
+    <string name="favorites_empty_title">No Favorites Yet</string>
+    <string name="favorites_empty_message">Start adding users and repositories to your favorites to see them here</string>
+    <string name="favorites_clear_all">Clear All</string>
+    <string name="favorites_add">Add to favorites</string>
+    <string name="favorites_remove">Remove from favorites</string>
+    <string name="favorites_type_user">User</string>
+    <string name="favorites_type_repository">Repository</string>
 
     <!--Settings Screen-->
     <string name="settings_title">Settings</string>

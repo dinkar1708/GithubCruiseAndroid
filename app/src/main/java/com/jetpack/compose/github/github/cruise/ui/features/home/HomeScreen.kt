@@ -5,10 +5,14 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.filled.Person
+import androidx.compose.material.icons.filled.Search
 import androidx.compose.material.icons.filled.Settings
+import androidx.compose.material.icons.filled.Star
 import androidx.compose.material.icons.outlined.Home
 import androidx.compose.material.icons.outlined.Person
+import androidx.compose.material.icons.outlined.Search
 import androidx.compose.material.icons.outlined.Settings
+import androidx.compose.material.icons.outlined.Star
 import androidx.compose.material3.Badge
 import androidx.compose.material3.BadgedBox
 import androidx.compose.material3.Icon
@@ -44,13 +48,15 @@ data class BottomNavItem(
  * Home screen with bottom navigation
  *
  * @param usersListContent Content for the Users tab
- * @param profileContent Content for the Profile tab
+ * @param repositoriesSearchContent Content for the Repository Search tab
+ * @param favoritesContent Content for the Favorites tab
  * @param settingsContent Content for the Settings tab
  */
 @Composable
 fun HomeScreen(
     usersListContent: @Composable () -> Unit,
-    profileContent: @Composable () -> Unit,
+    repositoriesSearchContent: @Composable () -> Unit,
+    favoritesContent: @Composable () -> Unit,
     settingsContent: @Composable () -> Unit
 ) {
     var selectedTabIndex by rememberSaveable { mutableIntStateOf(0) }
@@ -62,9 +68,14 @@ fun HomeScreen(
             unselectedIcon = Icons.Outlined.Home
         ),
         BottomNavItem(
-            title = stringResource(R.string.bottom_nav_profile),
-            selectedIcon = Icons.Filled.Person,
-            unselectedIcon = Icons.Outlined.Person
+            title = stringResource(R.string.bottom_nav_repositories),
+            selectedIcon = Icons.Filled.Search,
+            unselectedIcon = Icons.Outlined.Search
+        ),
+        BottomNavItem(
+            title = stringResource(R.string.bottom_nav_favorites),
+            selectedIcon = Icons.Filled.Star,
+            unselectedIcon = Icons.Outlined.Star
         ),
         BottomNavItem(
             title = stringResource(R.string.bottom_nav_settings),
@@ -120,8 +131,9 @@ fun HomeScreen(
         Box(modifier = Modifier.padding(paddingValues)) {
             when (selectedTabIndex) {
                 0 -> usersListContent()
-                1 -> profileContent()
-                2 -> settingsContent()
+                1 -> repositoriesSearchContent()
+                2 -> favoritesContent()
+                3 -> settingsContent()
             }
         }
     }
@@ -133,7 +145,8 @@ fun HomeScreenPreview() {
     GithubCruiseTheme {
         HomeScreen(
             usersListContent = { Text("Users List") },
-            profileContent = { Text("Profile") },
+            repositoriesSearchContent = { Text("Repository Search") },
+            favoritesContent = { Text("Favorites") },
             settingsContent = { Text("Settings") }
         )
     }

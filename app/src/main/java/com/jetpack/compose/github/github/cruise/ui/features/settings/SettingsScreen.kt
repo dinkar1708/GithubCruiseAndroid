@@ -43,6 +43,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import com.jetpack.compose.github.github.cruise.BuildConfig
 import com.jetpack.compose.github.github.cruise.R
+import com.jetpack.compose.github.github.cruise.ui.MainDestinations.WEBVIEW_SCREEN_ROUTE
 import com.jetpack.compose.github.github.cruise.ui.shared.AppActionBarView
 import com.jetpack.compose.github.github.cruise.ui.theme.AppShapes
 import com.jetpack.compose.github.github.cruise.ui.theme.Dimension
@@ -124,7 +125,7 @@ fun SettingsScreen(
                     val url = com.jetpack.compose.github.github.cruise.ui.shared.utils.CommonUtils.encodeUrl(
                         "https://www.google.com"
                     )
-                    navController.navigate("webview/$url/$privacyTitle")
+                    navController.navigate("$WEBVIEW_SCREEN_ROUTE/$url/$privacyTitle")
                 }
             )
 
@@ -136,7 +137,7 @@ fun SettingsScreen(
                     val url = com.jetpack.compose.github.github.cruise.ui.shared.utils.CommonUtils.encodeUrl(
                         "https://www.google.com"
                     )
-                    navController.navigate("webview/$url/$termsTitle")
+                    navController.navigate("$WEBVIEW_SCREEN_ROUTE/$url/$termsTitle")
                 }
             )
 
