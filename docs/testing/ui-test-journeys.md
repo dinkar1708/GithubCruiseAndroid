@@ -4,6 +4,7 @@ This folder contains UI tests organized by user journeys. Each journey represent
 
 ## Journey Structure
 
+### Core Journeys (All Passing)
 ```
 journeys/
 ├── README.md                           # This file
@@ -12,11 +13,19 @@ journeys/
 ├── Journey3_ViewUserProfileTest.kt    # View user profile details
 ├── Journey4_ViewRepositoriesTest.kt   # Browse user repositories
 ├── Journey5_FilterRepositoriesTest.kt # Filter forked repositories
-├── Journey6_ViewRepositoryDetailsTest.kt # Open repository in WebView
+├── Journey6_ViewRepositoryDetailsTest.kt # Repository details
 ├── Journey7_EmptySearchTest.kt        # Handle empty search
 ├── Journey8_ErrorHandlingTest.kt      # Handle errors and retry
 ├── Journey9_PullToRefreshTest.kt      # Pull to refresh functionality
 └── Journey10_BackNavigationTest.kt    # Back button navigation flow
+```
+
+### Additional Feature Journeys (In Development)
+```
+journeys/
+├── Journey11_RepositorySearchTest.kt  # Repository search tab navigation
+├── Journey12_FavoritesTest.kt         # Favorites tab functionality
+└── Journey13_RepositoryDetailsTest.kt # Enhanced repository details
 ```
 
 ## Journey Naming Convention
@@ -143,6 +152,43 @@ journeys/
 
 ---
 
+### Journey 11: Repository Search Tab (In Development)
+**User Flow:** User navigates to Repositories tab → Searches for repositories → Views results
+
+**What to test:**
+- Navigate to Repositories tab
+- Search input field accepts text
+- Search auto-triggers after typing
+- Repository cards display information
+- Scroll repository list
+- Empty state handling
+
+---
+
+### Journey 12: Favorites Tab (In Development)
+**User Flow:** User navigates to Favorites tab → Views saved favorites → Manages favorites
+
+**What to test:**
+- Navigate to Favorites tab
+- Empty favorites shows helpful message
+- Favorites screen has title
+- Switch between tabs maintains state
+- Favorites persist after navigation
+
+---
+
+### Journey 13: Enhanced Repository Details (In Development)
+**User Flow:** User views repository → Sees enhanced details screen → Interacts with actions
+
+**What to test:**
+- Repository details screen loads
+- Loading state shows while fetching
+- Back navigation works
+- Details screen shows repository information
+- Handles API errors gracefully
+
+---
+
 ## How to Run Journeys
 
 ### Run All Journeys
@@ -254,5 +300,7 @@ class Journey2_UserSearchTest {
 ---
 
 **Last Updated:** July 2026
-**Total Journeys:** 10
+**Total Journeys:** 13 (10 Core + 3 Additional Features)
+**Core Journeys Status:** 48/48 tests passing (100%)
+**Additional Journeys Status:** In development
 **Test Framework:** Compose Testing (Google's official recommendation)

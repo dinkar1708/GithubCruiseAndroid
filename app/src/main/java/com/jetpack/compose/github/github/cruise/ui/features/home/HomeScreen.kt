@@ -29,7 +29,10 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.semantics.semantics
+import androidx.compose.ui.semantics.testTag as semanticTestTag
 import androidx.compose.ui.tooling.preview.Preview
 import com.jetpack.compose.github.github.cruise.R
 import com.jetpack.compose.github.github.cruise.ui.theme.GithubCruiseTheme
@@ -96,6 +99,9 @@ fun HomeScreen(
                     NavigationBarItem(
                         selected = selectedTabIndex == index,
                         onClick = { selectedTabIndex = index },
+                        modifier = Modifier.semantics {
+                            semanticTestTag = "tab_${item.title.lowercase().replace(" ", "_")}"
+                        },
                         icon = {
                             BadgedBox(
                                 badge = {

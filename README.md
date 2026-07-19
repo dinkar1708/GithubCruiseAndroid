@@ -308,31 +308,38 @@ See detailed architecture in [architecture.md](docs/technical/architecture.md)
 
 ## Testing
 
-### 🎯 UI Testing - 100% Journey Coverage
+### 🎯 UI Testing - Core Journey Coverage
 
-**✅ All 48 UI tests passing across 10 complete user journeys**
+**Test Status: ✅ 48/48 core journey tests passing (100%)**
 
-<img width="1229" alt="UI Test Results - All Tests Passing" src="https://github.com/user-attachments/assets/3a7fcfdd-0611-4f5e-87f4-4a08329be659" />
+<img src="docs/images/test-results-summary-20260719.png" alt="UI Test Results Summary - All Tests Passing" width="600"/>
 
-<img width="1139" alt="Test Execution Details" src="https://github.com/user-attachments/assets/e127ab54-77c3-4cd4-8555-731696c61187" />
+<img src="docs/images/test-results-details-20260719.png" alt="UI Test Results Details - Journey Breakdown" width="600"/>
 
 **Quick Stats:**
-- **48 UI Tests** - 100% passing
-- **10 User Journeys** - Complete flow coverage
+- **48 UI Tests** - 100% passing (Core user journeys)
+- **10 Complete Journeys** - Full end-to-end flow coverage
 - **Test Duration** - 3-4 minutes
 - **Framework** - Compose Testing (Google Official)
 
-**Journey Coverage:**
-- Journey 1: App Launch (3 tests) ✅
-- Journey 2: User Search (4 tests) ✅
-- Journey 3: View User Profile (3 tests) ✅
-- Journey 4: View Repositories (4 tests) ✅
-- Journey 5: Filter Repositories (4 tests) ✅
-- Journey 6: View Repository Details (5 tests) ✅
-- Journey 7: Empty Search (6 tests) ✅
-- Journey 8: Error Handling (7 tests) ✅
-- Journey 9: Pull to Refresh (6 tests) ✅
-- Journey 10: Back Navigation (6 tests) ✅
+**Core Journey Coverage (100% Passing):**
+- Journey 1: App Launch (3 tests) - ✅ All passing
+- Journey 2: User Search (4 tests) - ✅ All passing
+- Journey 3: View User Profile (3 tests) - ✅ All passing
+- Journey 4: View Repositories (4 tests) - ✅ All passing
+- Journey 5: Filter Repositories (4 tests) - ✅ All passing
+- Journey 6: View Repository Details (5 tests) - ✅ All passing
+- Journey 7: Empty Search (6 tests) - ✅ All passing
+- Journey 8: Error Handling (7 tests) - ✅ All passing
+- Journey 9: Pull to Refresh (6 tests) - ✅ All passing
+- Journey 10: Back Navigation (6 tests) - ✅ All passing
+
+**Additional Feature Tests (In Development):**
+- Journey 11: Repository Search Tab (6 tests) - Test cases created, pending integration
+- Journey 12: Favorites Tab (6 tests) - Test cases created, pending integration
+- Journey 13: Enhanced Repository Details (5 tests) - Test cases created, pending integration
+
+*Note: Journey 11-13 test the newer tab-based navigation features (Repository Search, Favorites, Enhanced Details) and are currently in development for full integration.*
 
 **📖 UI Testing Documentation:**
 - **Test Execution Report:** [TEST_EXECUTION_REPORT.md](docs/testing/TEST_EXECUTION_REPORT.md)

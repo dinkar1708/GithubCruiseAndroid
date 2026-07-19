@@ -20,26 +20,31 @@ class Journey12_FavoritesTest {
 
     @Test
     fun journey12_canNavigateToFavoritesTab() {
-        // Wait for splash screen to finish
-        Thread.sleep(3000)
+        composeTestRule.waitForIdle()
 
-        // Verify we can see the "Favorites" tab
-        composeTestRule.onNodeWithText("Favorites").assertExists()
+        // Wait for home screen to load
+        composeTestRule.waitUntil(timeoutMillis = 10000) {
+            composeTestRule.onAllNodesWithContentDescription("Favorites").fetchSemanticsNodes().isNotEmpty()
+        }
 
         // Click on Favorites tab
-        composeTestRule.onNodeWithText("Favorites").performClick()
+        composeTestRule.onNodeWithContentDescription("Favorites").performClick()
+        composeTestRule.waitForIdle()
 
-        // Verify favorites screen is shown
-        composeTestRule.onNodeWithText("Favorites").assertExists()
+        // Verify favorites screen is shown - check for empty state
+        composeTestRule.onNodeWithText("No Favorites Yet", substring = true).assertExists()
     }
 
     @Test
     fun journey12_emptyFavoritesShowsEmptyState() {
-        Thread.sleep(3000)
+        composeTestRule.waitForIdle()
 
         // Navigate to Favorites tab
-        composeTestRule.onNodeWithText("Favorites").performClick()
-        Thread.sleep(500)
+        composeTestRule.waitUntil(timeoutMillis = 10000) {
+            composeTestRule.onAllNodesWithContentDescription("Favorites").fetchSemanticsNodes().isNotEmpty()
+        }
+        composeTestRule.onNodeWithContentDescription("Favorites").performClick()
+        composeTestRule.waitForIdle()
 
         // Should show empty state message
         composeTestRule.onNodeWithText("No Favorites Yet", substring = true).assertExists()
@@ -47,11 +52,14 @@ class Journey12_FavoritesTest {
 
     @Test
     fun journey12_emptyStateMessageIsHelpful() {
-        Thread.sleep(3000)
+        composeTestRule.waitForIdle()
 
         // Navigate to Favorites tab
-        composeTestRule.onNodeWithText("Favorites").performClick()
-        Thread.sleep(500)
+        composeTestRule.waitUntil(timeoutMillis = 10000) {
+            composeTestRule.onAllNodesWithContentDescription("Favorites").fetchSemanticsNodes().isNotEmpty()
+        }
+        composeTestRule.onNodeWithContentDescription("Favorites").performClick()
+        composeTestRule.waitForIdle()
 
         // Verify helpful empty state message exists
         composeTestRule.onNode(
@@ -62,53 +70,62 @@ class Journey12_FavoritesTest {
 
     @Test
     fun journey12_favoritesScreenHasTitle() {
-        Thread.sleep(3000)
+        composeTestRule.waitForIdle()
 
         // Navigate to Favorites tab
-        composeTestRule.onNodeWithText("Favorites").performClick()
-        Thread.sleep(500)
+        composeTestRule.waitUntil(timeoutMillis = 10000) {
+            composeTestRule.onAllNodesWithContentDescription("Favorites").fetchSemanticsNodes().isNotEmpty()
+        }
+        composeTestRule.onNodeWithContentDescription("Favorites").performClick()
+        composeTestRule.waitForIdle()
 
-        // Verify title exists in header
-        composeTestRule.onNodeWithText("Favorites").assertExists()
+        // Verify empty state is shown (title is in header)
+        composeTestRule.onNodeWithText("No Favorites Yet", substring = true).assertExists()
     }
 
     @Test
     fun journey12_canSwitchBetweenTabsAndFavorites() {
-        Thread.sleep(3000)
+        composeTestRule.waitForIdle()
 
         // Navigate to Favorites
-        composeTestRule.onNodeWithText("Favorites").performClick()
-        Thread.sleep(500)
+        composeTestRule.waitUntil(timeoutMillis = 10000) {
+            composeTestRule.onAllNodesWithContentDescription("Favorites").fetchSemanticsNodes().isNotEmpty()
+        }
+        composeTestRule.onNodeWithContentDescription("Favorites").performClick()
+        composeTestRule.waitForIdle()
 
         // Navigate to Users
-        composeTestRule.onNodeWithText("Users").performClick()
-        Thread.sleep(500)
+        composeTestRule.onNodeWithContentDescription("Users").performClick()
+        composeTestRule.waitForIdle()
 
         // Navigate back to Favorites
-        composeTestRule.onNodeWithText("Favorites").performClick()
-        Thread.sleep(500)
+        composeTestRule.onNodeWithContentDescription("Favorites").performClick()
+        composeTestRule.waitForIdle()
 
-        // Should still show Favorites screen
-        composeTestRule.onNodeWithText("Favorites").assertExists()
+        // Should still show Favorites screen with empty state
+        composeTestRule.onNodeWithText("No Favorites Yet", substring = true).assertExists()
     }
 
     @Test
     fun journey12_favoritesTabPersistsAfterNavigation() {
-        Thread.sleep(3000)
+        composeTestRule.waitForIdle()
 
         // Navigate to Favorites
-        composeTestRule.onNodeWithText("Favorites").performClick()
-        Thread.sleep(500)
+        composeTestRule.waitUntil(timeoutMillis = 10000) {
+            composeTestRule.onAllNodesWithContentDescription("Favorites").fetchSemanticsNodes().isNotEmpty()
+        }
+        composeTestRule.onNodeWithContentDescription("Favorites").performClick()
+        composeTestRule.waitForIdle()
 
         // Go to another tab
-        composeTestRule.onNodeWithText("Settings").performClick()
-        Thread.sleep(500)
+        composeTestRule.onNodeWithContentDescription("Settings").performClick()
+        composeTestRule.waitForIdle()
 
         // Come back to Favorites
-        composeTestRule.onNodeWithText("Favorites").performClick()
-        Thread.sleep(500)
+        composeTestRule.onNodeWithContentDescription("Favorites").performClick()
+        composeTestRule.waitForIdle()
 
-        // Favorites screen should still be accessible
-        composeTestRule.onNodeWithText("Favorites").assertExists()
+        // Favorites screen should still be accessible with empty state
+        composeTestRule.onNodeWithText("No Favorites Yet", substring = true).assertExists()
     }
 }

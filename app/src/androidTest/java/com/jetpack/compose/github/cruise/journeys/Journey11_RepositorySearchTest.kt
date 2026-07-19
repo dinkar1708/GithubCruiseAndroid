@@ -20,14 +20,20 @@ class Journey11_RepositorySearchTest {
 
     @Test
     fun journey11_canNavigateToRepositorySearchTab() {
-        // Wait for splash screen to finish
-        Thread.sleep(3000)
+        // Wait for app to be ready
+        composeTestRule.waitForIdle()
 
-        // Verify we can see the "Repositories" tab
-        composeTestRule.onNodeWithText("Repositories").assertExists()
+        // Wait for home screen to load
+        composeTestRule.waitUntil(timeoutMillis = 10000) {
+            composeTestRule
+                .onAllNodesWithContentDescription("Repositories")
+                .fetchSemanticsNodes()
+                .isNotEmpty()
+        }
 
         // Click on Repositories tab
-        composeTestRule.onNodeWithText("Repositories").performClick()
+        composeTestRule.onNodeWithContentDescription("Repositories").performClick()
+        composeTestRule.waitForIdle()
 
         // Verify repository search screen is shown
         composeTestRule.onNodeWithText("Repository Search").assertExists()
@@ -35,80 +41,110 @@ class Journey11_RepositorySearchTest {
 
     @Test
     fun journey11_canTypeInRepositorySearchField() {
-        Thread.sleep(3000)
+        composeTestRule.waitForIdle()
 
-        // Navigate to Repositories tab
-        composeTestRule.onNodeWithText("Repositories").performClick()
-        Thread.sleep(500)
+        // Wait and navigate to Repositories tab
+        composeTestRule.waitUntil(timeoutMillis = 10000) {
+            composeTestRule.onAllNodesWithContentDescription("Repositories").fetchSemanticsNodes().isNotEmpty()
+        }
+        composeTestRule.onNodeWithContentDescription("Repositories").performClick()
+        composeTestRule.waitForIdle()
 
-        // Find search field by test tag and type
+        // Wait for search field
+        composeTestRule.waitUntil(timeoutMillis = 5000) {
+            composeTestRule.onAllNodesWithTag("repository_search_input").fetchSemanticsNodes().isNotEmpty()
+        }
+
+        // Type in search field
         composeTestRule.onNodeWithTag("repository_search_input").performTextInput("android")
-        Thread.sleep(500)
 
         // Verify text was entered
-        composeTestRule.onNode(hasText("android", substring = true)).assertExists()
+        composeTestRule.onNodeWithTag("repository_search_input").assertTextContains("android")
     }
 
     @Test
     fun journey11_searchAutoTriggersAfterTyping() {
-        Thread.sleep(3000)
+        composeTestRule.waitForIdle()
 
         // Navigate to Repositories tab
-        composeTestRule.onNodeWithText("Repositories").performClick()
-        Thread.sleep(500)
+        composeTestRule.waitUntil(timeoutMillis = 10000) {
+            composeTestRule.onAllNodesWithContentDescription("Repositories").fetchSemanticsNodes().isNotEmpty()
+        }
+        composeTestRule.onNodeWithContentDescription("Repositories").performClick()
+        composeTestRule.waitForIdle()
 
-        // Type in search field
+        // Wait for search field and type
+        composeTestRule.waitUntil(timeoutMillis = 5000) {
+            composeTestRule.onAllNodesWithTag("repository_search_input").fetchSemanticsNodes().isNotEmpty()
+        }
         composeTestRule.onNodeWithTag("repository_search_input").performTextInput("kotlin")
 
-        // Wait for debounce (500ms) + network call
-        Thread.sleep(2000)
+        // Wait for debounce + network
+        Thread.sleep(1000)
 
-        // Search should have triggered (loading or results shown)
-        // Note: Actual results depend on API, test just verifies no crash
+        // Search should have triggered - screen should still exist
         composeTestRule.onNodeWithText("Repository Search").assertExists()
     }
 
     @Test
     fun journey11_emptySearchShowsEmptyState() {
-        Thread.sleep(3000)
+        composeTestRule.waitForIdle()
 
         // Navigate to Repositories tab
-        composeTestRule.onNodeWithText("Repositories").performClick()
-        Thread.sleep(500)
+        composeTestRule.waitUntil(timeoutMillis = 10000) {
+            composeTestRule.onAllNodesWithContentDescription("Repositories").fetchSemanticsNodes().isNotEmpty()
+        }
+        composeTestRule.onNodeWithContentDescription("Repositories").performClick()
+        composeTestRule.waitForIdle()
 
-        // Don't type anything - empty search should show empty state or prompt
+        // Don't type anything - empty search should show screen
         composeTestRule.onNodeWithText("Repository Search").assertExists()
     }
 
     @Test
     fun journey11_repositoryCardsShowInformation() {
-        Thread.sleep(3000)
+        composeTestRule.waitForIdle()
 
         // Navigate to Repositories tab
-        composeTestRule.onNodeWithText("Repositories").performClick()
-        Thread.sleep(500)
+        composeTestRule.waitUntil(timeoutMillis = 10000) {
+            composeTestRule.onAllNodesWithContentDescription("Repositories").fetchSemanticsNodes().isNotEmpty()
+        }
+        composeTestRule.onNodeWithContentDescription("Repositories").performClick()
+        composeTestRule.waitForIdle()
+
+        // Wait for search field
+        composeTestRule.waitUntil(timeoutMillis = 5000) {
+            composeTestRule.onAllNodesWithTag("repository_search_input").fetchSemanticsNodes().isNotEmpty()
+        }
 
         // Search for a common term
-        composeTestRule.onNode(hasSetTextAction()).performTextInput("github")
-        Thread.sleep(2500)
+        composeTestRule.onNodeWithTag("repository_search_input").performTextInput("github")
+        Thread.sleep(1000)
 
-        // Verify UI structure exists (even if API fails, screen should handle it)
+        // Verify UI structure exists
         composeTestRule.onNodeWithText("Repository Search").assertExists()
     }
 
     @Test
     fun journey11_canScrollRepositoryList() {
-        Thread.sleep(3000)
+        composeTestRule.waitForIdle()
 
         // Navigate to Repositories tab
-        composeTestRule.onNodeWithText("Repositories").performClick()
-        Thread.sleep(500)
+        composeTestRule.waitUntil(timeoutMillis = 10000) {
+            composeTestRule.onAllNodesWithContentDescription("Repositories").fetchSemanticsNodes().isNotEmpty()
+        }
+        composeTestRule.onNodeWithContentDescription("Repositories").performClick()
+        composeTestRule.waitForIdle()
+
+        // Wait for search field
+        composeTestRule.waitUntil(timeoutMillis = 5000) {
+            composeTestRule.onAllNodesWithTag("repository_search_input").fetchSemanticsNodes().isNotEmpty()
+        }
 
         // Search
-        composeTestRule.onNode(hasSetTextAction()).performTextInput("android")
-        Thread.sleep(2500)
+        composeTestRule.onNodeWithTag("repository_search_input").performTextInput("android")
+        Thread.sleep(1000)
 
-        // Try to scroll (even if no results, should not crash)
         // Repository Search screen should exist
         composeTestRule.onNodeWithText("Repository Search").assertExists()
     }
