@@ -55,6 +55,10 @@ fun SearchBox(
 ) {
     // Keep search text across screen rotation
     var searchText by rememberSaveable { mutableStateOf("") }
+
+// e.g. on screen rotation, the input text below gets cleared automatically
+//    var searchText by remember { mutableStateOf("") }
+
     // Track if user has interacted to prevent auto-search on initial composition
     var hasUserInteracted by remember { mutableStateOf(false) }
     val keyboardController = LocalSoftwareKeyboardController.current
