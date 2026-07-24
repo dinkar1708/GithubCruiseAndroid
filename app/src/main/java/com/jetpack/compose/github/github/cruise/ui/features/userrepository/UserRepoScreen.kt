@@ -82,8 +82,18 @@ fun UserRepoScreen(
             actions = {
                 // Favorite button for user profile
                 viewStateProfile.userProfile?.let { profile ->
-                    val isFavorite = favoritesState.favorites.any {
-                        it.id == profile.id.toString() && it.type == FavoriteType.USER
+                    // Performance optimization: Cache the favorite check result to avoid
+                    // recalculating on every recomposition. Only recalculates when the
+                    // favorites list or profile.id actually changes.
+                    //
+                    // Without remember: This any() check runs on EVERY recomposition
+                    // With remember: Only runs when dependencies (favorites list, profile.id) change
+                    //
+                    // See: https://developer.android.com/jetpack/compose/performance/bestpractices#remember-calculations
+                    val isFavorite = remember(favoritesState.favorites, profile.id) {
+                        favoritesState.favorites.any {
+                            it.id == profile.id.toString() && it.type == FavoriteType.USER
+                        }
                     }
                     FavoriteButton(
                         isFavorite = isFavorite,

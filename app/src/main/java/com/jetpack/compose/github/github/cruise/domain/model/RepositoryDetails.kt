@@ -1,11 +1,15 @@
 package com.jetpack.compose.github.github.cruise.domain.model
 
+import androidx.compose.runtime.Immutable
 import com.squareup.moshi.Json
 import com.squareup.moshi.JsonClass
 
 /**
  * Detailed repository information from API-5
+ *
+ * @Immutable for Compose performance - see package-info.md for details
  */
+@Immutable
 @JsonClass(generateAdapter = true)
 data class RepositoryDetails(
     @Json(name = "id") val id: Long,
@@ -36,6 +40,12 @@ data class RepositoryDetails(
     @Json(name = "subscribers_count") val subscribersCount: Int?
 )
 
+/**
+ * Domain model representing repository license information
+ *
+ * @Immutable for Compose performance - see package-info.md for details
+ */
+@Immutable
 @JsonClass(generateAdapter = true)
 data class License(
     @Json(name = "key") val key: String,

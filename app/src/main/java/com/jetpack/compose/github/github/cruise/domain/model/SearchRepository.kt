@@ -1,5 +1,6 @@
 package com.jetpack.compose.github.github.cruise.domain.model
 
+import androidx.compose.runtime.Immutable
 import com.squareup.moshi.Json
 import com.squareup.moshi.JsonClass
 
@@ -7,7 +8,10 @@ import com.squareup.moshi.JsonClass
  * Domain model for search repositories result
  * Used for Feature 2.1: Repository Search Screen
  * API: GET /search/repositories
+ *
+ * @Immutable for Compose performance - see package-info.md for details
  */
+@Immutable
 @JsonClass(generateAdapter = true)
 data class SearchRepository(
     @Json(name = "total_count")
@@ -20,7 +24,10 @@ data class SearchRepository(
 
 /**
  * Domain model for a repository
+ *
+ * @Immutable for Compose performance - see package-info.md for details
  */
+@Immutable
 @JsonClass(generateAdapter = true)
 data class Repository(
     @Json(name = "id")
@@ -57,7 +64,10 @@ data class Repository(
 
 /**
  * Domain model for repository owner
+ *
+ * @Immutable for Compose performance - see package-info.md for details
  */
+@Immutable
 @JsonClass(generateAdapter = true)
 data class RepositoryOwner(
     @Json(name = "login")
