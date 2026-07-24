@@ -313,6 +313,11 @@ See technical documentation in [docs/technical/](docs/technical/)
   - Response cleanup to prevent crashes
   - Pagination vs search cancellation strategy
   - OkHttp best practices
+- **[API_CALL_PATTERNS.md](docs/technical/API_CALL_PATTERNS.md)** - Serial vs Parallel API calls
+  - Real production logs showing serial execution
+  - Performance comparison (serial: 1972ms vs parallel: 1654ms)
+  - When to use each pattern
+  - async/await examples with official Kotlin docs
 - [features.md](docs/technical/features.md) - Complete feature documentation
 - [design-system.md](docs/technical/design-system.md) - Material Design 3 tokens
 - [testing-types.md](docs/technical/testing-types.md) - Comprehensive testing guide

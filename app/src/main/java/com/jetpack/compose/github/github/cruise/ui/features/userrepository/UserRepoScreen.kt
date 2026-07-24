@@ -63,7 +63,8 @@ fun UserRepoScreen(
     val favoritesState by favoritesViewModel.uiState.collectAsStateWithLifecycle()
 
     LaunchedEffect(key1 = login) {
-        viewModel.loadApiData(login)
+//        viewModel.loadApiData(login)
+        viewModel.loadApiDataParallel(login)
     }
 
     Column(

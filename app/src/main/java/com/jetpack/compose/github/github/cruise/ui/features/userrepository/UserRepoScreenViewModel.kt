@@ -8,6 +8,7 @@ import com.jetpack.compose.github.github.cruise.ui.features.userrepository.state
 import com.jetpack.compose.github.github.cruise.ui.features.userrepository.state.UserRepoViewListState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineDispatcher
+import kotlinx.coroutines.async
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -37,9 +38,16 @@ class UserRepoScreenViewModel @Inject constructor(
 
     override val TAG = "UserRepoScreenViewModel"
 
+    /**
+     * SERIAL API CALLS - Currently active (intentional for demonstration)
+     *
+     * Loads profile first, then repositories (one after another).
+     * See docs/technical/API_CALL_PATTERNS.md for comparison.
+     */
     fun loadApiData(login: String) = viewModelScope.launch {
         _uiStateRepository.update { it.copy(login = login) }
 
+        // Sequential/Serial API calls - one waits for the other
         if (_uiStateProfile.value.userProfile == null) {
             loadUserProfile(login)
         }
@@ -48,8 +56,43 @@ class UserRepoScreenViewModel @Inject constructor(
         }
     }
 
+    /**
+     * PARALLEL API CALLS - Alternative implementation
+     *
+     * Both APIs load at the same time - ~16% faster than serial.
+     * To use: Comment out loadApiData() above and update LaunchedEffect call.
+     * See docs/technical/API_CALL_PATTERNS.md for details.
+     */
+    fun loadApiDataParallel(login: String) = viewModelScope.launch {
+        _uiStateRepository.update { it.copy(login = login) }
+
+        // Parallel API calls - both start at the same time
+        if (_uiStateProfile.value.userProfile == null ||
+            _uiStateRepository.value.userRepoList.isEmpty()) {
+
+            val profileDeferred = async {
+                if (_uiStateProfile.value.userProfile == null) {
+                    loadUserProfile(login)
+                }
+            }
+
+            val reposDeferred = async {
+                if (_uiStateRepository.value.userRepoList.isEmpty()) {
+                    loadUserRepositories()
+                }
+            }
+
+            // Wait for both to complete
+            profileDeferred.await()
+            reposDeferred.await()
+        }
+    }
+
+
     private suspend fun loadUserProfile(login: String) {
         _uiStateProfile.update { it.copy(isLoading = true) }
+        logDebug("loadUserProfile - START")
+        val startTime = System.currentTimeMillis()
 
         try {
             val userProfile = userRepositoryUseCase.getUserProfile(login = login)
@@ -70,6 +113,8 @@ class UserRepoScreenViewModel @Inject constructor(
                     errorMessage = ""
                 )
             }
+            val endTime = System.currentTimeMillis()
+            logDebug("loadUserProfile - END (${endTime - startTime}ms)")
             // Update repository state with total count from user profile
             _uiStateRepository.update {
                 it.copy(totalRepos = userProfile.publicRepos)
@@ -87,6 +132,8 @@ class UserRepoScreenViewModel @Inject constructor(
 
     private suspend fun loadUserRepositories() {
         _uiStateRepository.update { it.copy(isLoading = true) }
+        logDebug("loadUserRepositories - START")
+        val startTime = System.currentTimeMillis()
 
         try {
             val repositories =
@@ -106,6 +153,9 @@ class UserRepoScreenViewModel @Inject constructor(
                         }
                     }
                     .singleOrNull() ?: return
+
+            val endTime = System.currentTimeMillis()
+            logDebug("loadUserRepositories - END (${endTime - startTime}ms)")
 
             if (repositories.isEmpty()) {
                 _uiStateRepository.update {
