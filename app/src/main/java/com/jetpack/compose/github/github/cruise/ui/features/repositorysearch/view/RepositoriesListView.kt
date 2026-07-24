@@ -55,34 +55,27 @@ fun RepositoriesListView(
     onItemClick: (Repository) -> Unit,
     onListScrolledToEnd: (Int) -> Unit
 ) {
-    // Restore scroll position from ViewModel state (survives rotation)
-    val scrollState = rememberLazyListState(
-        initialFirstVisibleItemIndex = lastVisibleItemIndex.coerceAtLeast(0)
-    )
+    // No explicit scroll state - let LazyColumn handle it internally
     var scrolledToEnd by rememberSaveable { mutableStateOf(false) }
 
-    LazyColumn(state = scrollState) {
-        itemsIndexed(repositories) { _, repository ->
+    LazyColumn {
+        itemsIndexed(repositories) { index, repository ->
             key(repository.id) {
                 RepositoryCard(
                     repository = repository,
                     onItemClick = onItemClick
                 )
-            }
-        }
-    }
 
-    LaunchedEffect(scrollState) {
-        snapshotFlow { scrollState.layoutInfo.visibleItemsInfo }
-            .distinctUntilChanged()
-            .collect { visibleItems ->
-                if (visibleItems.lastOrNull()?.index == (repositories.size - 1) && !scrolledToEnd) {
-                    val lastIndex = scrollState.layoutInfo.visibleItemsInfo.lastOrNull()?.index ?: 0
-                    Timber.d("Scrolled to end, loading next page. Last index: $lastIndex")
-                    scrolledToEnd = true
-                    onListScrolledToEnd(lastIndex)
+                // Detect when scrolled to end
+                if (index == repositories.size - 1 && !scrolledToEnd) {
+                    LaunchedEffect(Unit) {
+                        Timber.d("Scrolled to end, loading next page. Last index: $index")
+                        scrolledToEnd = true
+                        onListScrolledToEnd(index)
+                    }
                 }
             }
+        }
     }
 
     LaunchedEffect(repositories) {
